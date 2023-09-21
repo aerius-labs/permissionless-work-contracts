@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "solmate/auth/Owned.sol";
 import "solmate/utils/ReentrancyGuard.sol";
+import "openzeppelin/utils/structs/EnumerableMap.sol";
 
 contract Guild is Owned, ReentrancyGuard {
     struct Contributor {
@@ -15,9 +16,14 @@ contract Guild is Owned, ReentrancyGuard {
         uint256 claimedSalary;
     }
 
+    struct Contribution {
+        uint256 cumScore;
+        EnumerableMap data;
+    }
+
     mapping(address => Contributor) public contributors;
-    mapping(address => mapping) public contributions;
-    mapping(uint256 => mapping(address => uint256)) public salaryPool;
+    mapping(address => mapping(uint8 => Contribution)) public contributions;
+
     mapping(address => Salary) public claimedSalary;
 
     constructor(address owner) Owned(owner) {}
