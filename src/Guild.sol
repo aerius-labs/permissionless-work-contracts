@@ -2,17 +2,23 @@
 pragma solidity ^0.8.13;
 
 import "solmate/auth/Owned.sol";
+import "solmate/utils/ReentrancyGuard.sol";
 
-contract Guild is Owned {
+contract Guild is Owned, ReentrancyGuard {
     struct Contributor {
-        uint256 devScore;
-        uint256 problemSolvingScore;
-        uint256 designScore;
+        string name;
+        address contributorAddress;
+    }
+
+    struct Salary {
+        uint256 cumulativeSalary;
+        uint256 claimedSalary;
     }
 
     mapping(address => Contributor) public contributors;
+    mapping(address => mapping) public contributions;
     mapping(uint256 => mapping(address => uint256)) public salaryPool;
-    mapping(address => uint256) public claimedSalary;
+    mapping(address => Salary) public claimedSalary;
 
     constructor(address owner) Owned(owner) {}
 
