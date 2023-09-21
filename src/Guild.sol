@@ -6,6 +6,8 @@ import "solmate/utils/ReentrancyGuard.sol";
 import "openzeppelin/utils/structs/EnumerableMap.sol";
 
 contract Guild is Owned, ReentrancyGuard {
+    using EnumerableMap for EnumerableMap.UintToUintMap;
+
     struct Contributor {
         string name;
         address contributorAddress;
