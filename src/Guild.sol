@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "solmate/auth/Ownable.sol";
+import "solmate/auth/Owned.sol";
 
-contract Guild is Ownable {
+contract Guild is Owned {
     struct Contributor {
         uint256 devScore;
         uint256 problemSolvingScore;
@@ -14,7 +14,7 @@ contract Guild is Ownable {
     mapping(uint256 => mapping(address => uint256)) public salaryPool;
     mapping(address => uint256) public claimedSalary;
 
-    constructor() {}
+    constructor(address owner) Owned(owner) {}
 
     function addContributor(
         address contributorAddress,
@@ -25,11 +25,7 @@ contract Guild is Ownable {
         contributors[contributorAddress] = Contributor(devScore, problemSolvingScore, designScore);
     }
 
-    function addMoneyToSalaryPool(
-        uint256 month,
-        uint256 year,
-        uint256 amount
-    ) external onlyOwner {
+    function addMoneyToSalaryPool(uint256 month, uint256 year, uint256 amount) external onlyOwner {
         salaryPool[year][msg.sender] += amount;
     }
 
