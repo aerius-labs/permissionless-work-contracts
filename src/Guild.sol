@@ -30,13 +30,8 @@ contract Guild is Owned, ReentrancyGuard {
 
     constructor(address owner) Owned(owner) {}
 
-    function addContributor(
-        address contributorAddress,
-        uint256 devScore,
-        uint256 problemSolvingScore,
-        uint256 designScore
-    ) external onlyOwner {
-        contributors[contributorAddress] = Contributor(devScore, problemSolvingScore, designScore);
+    function addContributor(string name, address contributorAddress) external onlyOwner {
+        contributors[contributorAddress] = Contributor(name, contributorAddress);
     }
 
     function addMoneyToSalaryPool(uint256 month, uint256 year, uint256 amount) external onlyOwner {
